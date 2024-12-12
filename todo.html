@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/all.min.css">
+</head>
+<body>
+    <nav class="navbar bg-dark navbar-dark">
+        <div class="container" style="max-width: 600px;">
+        <a href="#" class="navbar-brand">
+            ToDo<span class="badge bg-danger ms-1">0</span>
+ 
+        </a>
+        </div>
+    </nav>
+
+    <div class="container" style="max-width:600px;">
+        <div class="input-group my-4">
+                <input type="text" class="form-control">
+                <button class="btn btn-dark">Add</button>
+        </div>
+        
+            <ul id="tasks" class="list-group"></ul>
+            <ul id="done" class="list-group mt-4 opacity-50"></ul>
+    </div>
+    
+    
+    <script>
+        function count() {
+            document.querySelector(".badge").textContent = document.querySelectorAll("#tasks li").length;
+        }
+        document.querySelector("button").onclick = () => {
+            let text = document.querySelector("input").value;
+            if (text == "") return false;
+            
+            createItem(text);
+            count();
+
+            document.querySelector("input").value = "";
+            document.querySelector("input").focus();
+        }
+        document.querySelector("input").onkeydown = e => {
+            if(e.key == "Enter") {
+                document.querySelector("button").onclick();
+            }
+        }
+        function createItem(text){
+            let li = document.createElement("li");
+            li.classList.add("list-group-item");
+            li.textContent = text;
+
+            let check = document.createElement("a");
+            check.classList.add("fa-solid", "fa-check", "float-start", "me-2");
+            check.setAttribute("href", "#");
+            check.onclick = () => {
+                document.querySelector("#done").appendChild(li);
+                check.remove();
+                count();
+            }
+            li.appendChild(check);
+            
+            let del = document.createElement("a");
+            del.classList.add("fa-solid", "fa-trash", "text-danger", "float-end");
+            del.setAttribute("herf" , "#");
+            del.onclick = () => {
+                li.remove();
+                count();
+            }
+            li.appendChild(del);
+
+            document.querySelector("#tasks").appendChild(li);
+            
+           
+        }
+    </script>
+</body>
+</html>
